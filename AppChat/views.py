@@ -61,5 +61,5 @@ def delete_msg(request, msg_id):
         return redirect('messages')
     # Si levanta una excepcion renderiza a la pagina de inicio
     except Exception as exc:
-        return redirect('App_Blog/templates/inicio.html')
+        return redirect('inicio.html')
 

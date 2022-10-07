@@ -117,7 +117,7 @@ def buscar(request):  #####VER ESTA FUNCION, SI ES NECESARIA!
 def category(request):
     category = Post.objects.all().order_by('-created_at')
     filter = ChoiceFilter(request.GET, queryset=category)
-    category = filter.qs
+    category = filter.queryset
     context = {
         'category': category,
         'filter': filter,}
