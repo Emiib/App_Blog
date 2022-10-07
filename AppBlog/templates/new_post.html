@@ -1,0 +1,37 @@
+
+{% extends 'pages.html' %}
+{% load crispy_forms_tags %}
+
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_utils %}
+
+{% load static %}
+
+{% block title %}
+
+<h1 class="fw-bolder">Crea Tu Post</h1>
+
+<p class="lead mb-0">Escribe un articulo sobre tu anime favorito</p>
+
+
+<a href="{% url 'posts' %}" class="btn btn-outline-secondary">Posts</a>
+
+{% endblock title %}
+{% block blog %}
+
+<div class="p-4 my-4 shadow rounded mx-auto">
+
+    <form action="{% url 'add_post' %}" method="POST" enctype="multipart/form-data"> 
+        
+        {% csrf_token %}
+
+        <div class="card mb-4">
+            {{ form.media }}
+            {{ form|crispy }}
+        </div>
+    </form>
+<input type="submit" value="Create" class="btn btn-dark">
+</div>
+
+{% endblock blog %}

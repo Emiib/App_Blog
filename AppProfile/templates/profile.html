@@ -1,0 +1,58 @@
+{% extends 'D:/Documents/App_Blog/AppBlog/templates/pages.html' %}
+
+{% load static %}
+
+
+{% block title %}
+
+<h1 class="fw-bolder">{{ user.username }}</h1>
+
+<h2><img src="{{ avatar }}" alt="{{ request.user.username }}" class="circle responsive-img valign profile-image" height="100px" width="100px"></h2>
+
+<a href="{% url 'updateprofile' %}" class="btn btn-primary">Edit Profile</a>
+
+<a href="{% url 'updateavatar' %}" class="btn btn-primary">Update Avatar</a>
+
+{% endblock title %}
+
+
+{% block blog %}
+
+{% block cat %}{% endblock cat %}
+<div class="p-4 my-4 shadow rounded mx-auto">
+
+	<div class="row">
+
+		<div class="col-md-4 col-sm-12">
+			<div class="overview-detail">
+				
+				<div class="w3-card-4 w3-center">
+					{% if user %}
+					<h4>
+						<ul>
+							<ol>Name: {{ user.first_name }}</ol>
+							<div class="card-body"></div>
+							<ol>Last Name: {{ user.last_name }}</ol>
+							<div class="card-body"></div>
+							<ol>Email: {{ user.email }}</ol>
+							<div class="card-body"></div>
+							<ol>About Me: {{ user.mybio }}</ol>
+							<div class="card-body"></div>
+							<ol>Instagram: {{ user.instagram_rss }}</ol>
+							<div class="card-body"></div>
+							<ol>GitHub: {{ user.github_rss }}</ol>
+							<div class="card-body"></div>
+							<ol>Linkedin: {{ user.linkedin_rss }}</ol>
+							<div class="card-body"></div>
+							<ol>Last Login: {{ user.last_login }}</ol>
+							<div class="card-body"></div>
+							<ol>Whit us since: {{ user.date_joined }}</ol>
+						</ul>
+					</h4>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock blog %}

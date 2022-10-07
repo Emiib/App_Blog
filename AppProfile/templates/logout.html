@@ -1,0 +1,16 @@
+{% extends 'D:/Documents/App_Blog/AppBlog/templates/pages.html' %}
+
+{% load static %}
+
+{% block title %}
+
+<h1 class="fw-bolder">Mata Kondo</h1>
+<p class="lead mb-0">Hasta Pronto Otaku</p>
+
+{% endblock title  %}
+
+{% block blog %}
+
+<script>window.setTimeout(function() {window.location.href = "{% url 'inicio' %}";}, 1300)</script>
+
+{% endblock blog %}

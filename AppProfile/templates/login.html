@@ -1,0 +1,33 @@
+{% extends 'D:/Documents/App_Blog/AppBlog/templates/pages.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_utils %}
+
+{% load static %}
+
+{% block title %}
+
+<h1 class="fw-bolder">LOGIN</h1>
+<a href="{% url 'inicio' %}" class="btn btn-default smoothScroll">Go Back</a>
+
+{% endblock title %}
+
+{% block nav %}{% endblock nav %}
+
+{% block blog %}
+{% block cat %}{% endblock cat %}
+
+<div class="p-4 my-4 shadow rounded mx-auto">
+   
+    <form action="{% url 'login' %}" method="POST" autocomplete="on"> {% csrf_token %}
+
+        <table>
+            {{ formulario | crispy }}
+        </table>
+        <input type="submit" value="Login">
+    </form>
+</div>
+
+{% endblock blog %}

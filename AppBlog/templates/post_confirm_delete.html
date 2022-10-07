@@ -1,0 +1,33 @@
+{% extends 'pages.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_utils %}
+{% load static %}
+
+{% block title %}
+
+<h1 class="fw-bolder">Delete Post</h1>
+
+<a href="{% url 'posts' %}" class="btn btn-outline-secondary">Posts</a>
+
+
+{% endblock title %}
+{% block blog %}
+
+
+<div class="p-4 my-4 shadow rounded mx-auto">
+
+    <form method="POST" > 
+        
+        {% csrf_token %}
+        
+        <div class="d-flex flex-column gap-3">
+            {{ object }}
+        </div>
+        <input type="submit" value="Confirm" class="btn btn-warning">
+    </form>
+
+</div>
+
+{% endblock blog %}

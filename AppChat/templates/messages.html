@@ -1,0 +1,85 @@
+{% extends 'D:/Documents/App_Blog/AppBlog/templates/pages.html' %}
+
+{% load static %}
+
+{% block title %}
+
+<h1 class="fw-bolder">INBOX</h1>
+
+<a href="{% url 'new_message' %}" class="btn btn-dark">New Message</a>
+
+{% endblock title %}
+
+<!-- ======================================================================================================================================================
+                                    RECEIVED INBOX   
+=========================================================================================================================================================== -->
+{% block blog %}
+{% block cat %}{% endblock cat %}
+<h2 class="card-title h4">Received Messages</h2>
+<div class="p-4 my-4 shadow rounded mx-auto">
+	<div class="container">
+		<div class="row">
+            <table class="w3-table-all w3-card-4">
+                <thead>
+                    <tr class="w3-wide">
+                        <th>From:</th>
+                        <th>Message:</th>
+                        <th>Sent:</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in received %}
+                        <tr>
+                            <th>{{msg.sender}}</th>
+                            <td>{{msg.msg}}
+                            <td>{{msg.date}}</td>
+                            <td>
+                            <a href="{% url 'new_message' %}" class="btn btn-primary">Replay Msg</a>
+                            <a href="{% url 'delete_msg' msg.id %}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- ======================================================================================================================================================
+                                         SENT SECTION   
+=========================================================================================================================================================== -->
+<h2 class="card-title h4">Sent Messages</h2>
+<div class="p-4 my-4 shadow rounded mx-auto">
+	<div class="container">
+		<div class="row">
+            <table class="w3-table-all w3-card-4">
+                <thead>
+                    <tr class="w3-wide">
+                        <th>To:</th>
+                        <th>Message:</th>
+                        <th>Sent:</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in sent %}
+                        <tr>
+                            <th>{{msg.reciever}}</th>
+
+                            <td>{{msg.msg}}</td>
+
+                            <td>{{msg.date}}</td>
+                          
+                            <td>
+                            <a href="{% url 'new_message' %}" class="btn btn-primary">New message</a>
+                            <a href="{% url 'delete_msg' msg.id %}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock blog %}
