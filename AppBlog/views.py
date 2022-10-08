@@ -35,7 +35,7 @@ def inicio(request):
 def posts(request):
     
     posts = Post.objects.all()
-    posts = Post.objects.order_by('-created_at')
+    posts = Post.objects.order_by('-published_at')
 
     return render(request, 'pages.html', {'posts': posts})
 
@@ -60,7 +60,7 @@ def add_post(request):
     return render(request, 'new_post.html', context)
 
 ####### Funcion para editar los articulos. (necesario estar logueado)
-@login_required
+@login_required(login_url='/login/')
 def edit_post(request, post_id):
 
     post = Post.objects.get(id=post_id)
@@ -76,7 +76,6 @@ def edit_post(request, post_id):
     return render(request, 'editpost.html',{'post':post, 'form': form})
 
 ##### funcion para poder ver un post estando con una sesion activa. 
-@login_required
 def post_detail(request, post_id):
     
     post = Post.objects.get(id = post_id) 
@@ -115,7 +114,7 @@ def buscar(request):  #####VER ESTA FUNCION, SI ES NECESARIA!
     return redirect('inicio')
 
 def category(request):
-    category = Post.objects.all().order_by('-created_at')
+    category = Post.objects.all().order_by('-published_at')
     filter = ChoiceFilter(request.GET, queryset=category)
     category = filter.queryset
     context = {

@@ -28,8 +28,8 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Posts</a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <a href="{% url 'posts' %}" class="dropdown-item">Posts</a>
-                        <div class="dropdown-divider"></div>
                         {% if user.is_authenticated %}
+                        <div class="dropdown-divider"></div>
                         <a href="{% url 'add_post' %}" class="dropdown-item">New Post</a>
                         {% endif %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
@@ -102,19 +102,26 @@
                                 <div class="card-body">
                                     {% for comment in post.comments.all %}
                                         <!-- Comment form-->
-                                        <form action="{% url 'addComment' %}" class="mb-4"> 
+                                        <form action="{% url 'addComment' %}" class="mb-4">
+
+                                            {% csrf_token %}
                                             
-                                            <textarea class="form-control" rows="3" placeholder="Deja tu comentario sobre este articulo"></textarea></form> {% csrf_token %}
-                                                
+                                            <textarea class="form-control" rows="3" placeholder="Deja tu comentario sobre este articulo"></textarea>
+                                             
                                             {{ form|crispy }}
+                                        </form>
                                         <!-- Comment with nested comments-->
                                         <div class="d-flex mb-4">
                                             <!-- Parent comment-->
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="/media/{{ avatar.Avatar }}" alt="..." /></div>
+                                            {% if user.is_authenticated %}
+                                            <div class="flex-shrink-0"><img class="rounded-circle" src="{{ avatar }}" alt="{{ request.user.username }}" /></div>
                                             <div class="ms-3">
                                                 <div class="fw-bold">{{ Comment.person_name }}</div>
+                                            {% else %}
+                                            <div class="fw-bold">{{ user.username }}</div>
                                                 <textarea class="form-control" placeholder="Comment" name="Comment" required id="Comment" value="{{ Comment.content }}"></textarea>
                                             </div>
+                                            {% endif %}
                                         </div>
                                     {% endfor %}
                                 </div>

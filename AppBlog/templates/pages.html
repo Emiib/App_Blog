@@ -65,7 +65,25 @@
                 {% block title %}
                 <h1 class="fw-bolder">Konnichiwa</h1>
                 <p class="lead mb-0">Estos son todos los posts</p>
+                {% if user.is_authenticated %}
                 <button class="btn btn-primary" href="{% url 'add_post' %}" type="button">Crear Post</button>
+                {% endif %}
+                {% block category %}
+
+                <div class="card card-body ml-3 mr-3">
+                    <form method="GET" action="{% url 'category' %}" class="form-inline">
+                        {% csrf_token %}
+                            <div>
+                                {{ filter.form|crispy }}
+                                <button type="submit" class="btn btn-secondary">SEARCH</button>
+                            </div>
+                    </form>
+                </div>
+
+
+
+                {% endblock category %}
+
                 {% endblock title %}
                 
             </div>
@@ -77,15 +95,6 @@
         <div class="row">
             <div class="col-lg-8"></div>
                 {% block blog %}
-                    <div class="card card-body ml-3 mr-3">
-                        <form method="GET" action="{% url 'category' %}" class="form-inline">
-                            {% csrf_token %}
-                                <div>
-                                    {{ filter.form|crispy }}
-                                    <button type="submit" class="btn btn-secondary">SEARCH</button>
-                                </div>
-                        </form>
-                    </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <!-- Blog post-->
@@ -104,42 +113,6 @@
                         </div>
                     </div>    
                 </div>
-            </div>
-            <!-- Side widgets-->
-            <div class="col-lg-4">
-                <!-- Search widget-->
-                <div class="card mb-4">
-                    <div class="card-header">Search</div>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-                        </div>
-                    </div>
-                </div>
-
-
-                {% block cat %}
-                    <!-- Categories widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Categories</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">Action</a></li>
-                                        <li><a href="#!">Shounen</a></li>
-                                        <li><a href="#!">Fantasy</a></li>
-                                        <li><a href="#!">Thriller</a></li>
-                                        <li><a href="#!">Science Fiction</a></li>
-                                        <li><a href="#!">Sports</a></li>
-                                        <li><a href="#!">Adventure</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endblock cat %}
             </div>
             {% endblock blog %}
         </div>

@@ -169,6 +169,8 @@ def update_avatar(request):
     return render(request, 'update_avatar.html', context)
 
 
+
+
 ###### FUNCION PARA PONER QUE SE COLOQUE UN AVATAR PREDETERMINADO
 def defaultAvatar(request):
     lista=Avatar.objects.filter(user=request.user)

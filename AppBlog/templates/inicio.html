@@ -22,8 +22,7 @@
         <a class="menu-toggle rounded" href="#"><i class="fas fa-bars"></i></a>
         <nav id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand"><a href="{% url 'inicio' %}">Home</a></li>
-                <li class="sidebar-nav-item"><a href="{% url 'posts' %}">Posts</a></li>
+                <li class="sidebar-brand"><a href="{% url 'posts' %}">Posts</a></li>
                 {% if user.is_authenticated %}
                 <li class="sidebar-nav-item"><a href="{% url 'add_post' %}">New Post</a></li>
                 <li class="sidebar-nav-item"><a href="{% url 'profile' %}">Profile</a></li>
@@ -41,7 +40,6 @@
             <div class="container px-4 px-lg-5 text-center">
                 <h1 class="mb-1">TOMODACHI</h1>
                 <h3 class="mb-5"><em>Blog Anime</em></h3>
-                <a class="btn btn-primary btn-xl" href="{% url 'posts' %}">POSTS</a>
             </div>
         </header>
 
