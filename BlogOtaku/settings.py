@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import dj_database_url
-import django_heroku
 
 from pathlib import Path
 import os
+
 from django.contrib.messages import constants as message_constants
 
 
@@ -189,7 +189,7 @@ MESSAGE_TAGS = {
 
 # ------ HEROKU ------#
 
-django_heroku.settings(locals())
+
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
