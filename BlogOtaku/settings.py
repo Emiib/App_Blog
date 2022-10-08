@@ -50,11 +50,11 @@ INSTALLED_APPS = [
     'AppProfile',
 
     #paquetes
-    'ckeditor',
+    'ckeditor', #editor de texto avanzado para crear los articulos
     'crispy_forms', #fuente: https://es.acervolima.com/disenar-formularios-de-django-con-django-crispy-forms/
-    'crispy_bootstrap5',
-    'axes',
-    'django_filters',
+    'crispy_bootstrap5', #para los formularios de crispy
+    'axes', #paquete para autenticaciones con modalidades de seguridad y formularios avanzados
+    'django_filters', #fuente: https://django-filter.readthedocs.io/en/stable/index.html
 
 ]
 
