@@ -1,3 +1,4 @@
+from argparse import Action
 from unicodedata import category
 from django.views import View
 from django.shortcuts import render, redirect
@@ -24,6 +25,8 @@ from AppProfile.models import Avatar
 
 from .filters import ChoiceFilter
 
+from django.db.models import Q
+
 
 
 ###### Vista de inicio extendida desde padre.html
@@ -45,13 +48,12 @@ def posts(request):
 def add_post(request):
     if request.method != 'POST':
         form = NewPost()
-        return render(request, "new_post.html", {"form":form, "avatar":defaultAvatar(request)})
+        return render(request, "new_post.html", {"form":form})
     else:
         form = NewPost(request.POST, request.FILES)
         if form.is_valid():
-            
             post = form.save(commit=False)
-            post.author = request.user
+            post.author = request.post
             post.save()
             posts = Post.objects.all()
             return redirect('posts')
@@ -71,7 +73,7 @@ def edit_post(request, post_id):
         form = NewPost(instance=post, data=request.POST)
         if form.is_valid():
             form.save()
-            posts = Post.objects.all()
+            post = Post.objects.all()
             return redirect('posts')
     return render(request, 'editpost.html',{'post':post, 'form': form})
 
@@ -116,8 +118,33 @@ def buscar(request):  #####VER ESTA FUNCION, SI ES NECESARIA!
 def category(request):
     category = Post.objects.all().order_by('-published_at')
     filter = ChoiceFilter(request.GET, queryset=category)
-    category = filter.queryset
+    category = filter.qs
     context = {
         'category': category,
-        'filter': filter,}
+        'filter': filter}
     return render(request, 'post_cat.html', context)
+
+def categories(request):
+
+    post = request.post
+
+    post = Post.objects.filter(Q(Action=post) | Q(Adventure=post) | Q(Science_Fiction=post) | Q(Sports=post) | Q(Thriller=post) | Q(Shounen=post) | Q(Fantasy=post)).order_by('-date')
+    action = post.filter(Action=post).order_by('-date')
+    Adventure = post.filter(Adventure=post).order_by('-date')
+    Science_Fiction = post.filter(Science_Fiction=post).order_by('-date')
+    Sports = post.filter(Sports=post).order_by('-date')
+    Thriller = post.filter(Thriller=post).order_by('-date')
+    Shounen = post.filter(Shounen=post).order_by('-date')
+    Fantasy = post.filter(Fantasy=post).order_by('-date')
+
+
+    context =  {'category': category,
+            'action': action,
+            'Adventure': Adventure,
+            'Science_Fiction': Science_Fiction,
+            'Sports': Sports,
+            'Thriller':Thriller,
+            'Shounen': Shounen,
+            'Fantasy': Fantasy
+            }
+    return render(request, 'categories.html', context)

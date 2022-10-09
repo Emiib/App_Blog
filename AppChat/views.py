@@ -13,11 +13,6 @@ from django.db.models import Q
 def messages(request):
     
     user = request.user
-    try:
-        avatar = Avatar.objects.get(user=request.user)
-        avatar = avatar.avatar.url
-    except:
-        avatar = ''
     
     msg = Inbox.objects.filter(Q(reciever=user) | Q(sender=user)).order_by('-date')
     received = msg.filter(reciever=user).order_by('-date')
@@ -28,7 +23,7 @@ def messages(request):
                 'messages': msg,
                 'received': received,
                 'sent':sent,
-                'avatar': avatar}
+                }
     return render(request, 'messages.html', context)
 
 ###### Esta es la vista para crear un nuevo mensaje

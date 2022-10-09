@@ -65,7 +65,7 @@
                 <h1 class="fw-bolder">Konnichiwa</h1>
                 <p class="lead mb-0">Estos son todos los posts</p>
                 {% if user.is_authenticated %}
-                <a href="{% url 'new_message' %}" class="btn btn-dark">Crear Post</a>
+                <a href="{% url 'add_post' %}" class="btn btn-dark">Crear Post</a>
                 {% endif %}
                 {% block category %}
                 <div class="text-center my-5"></div>
