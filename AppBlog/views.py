@@ -34,6 +34,7 @@ def inicio(request):
     return render(request, 'inicio.html')
 
 
+
 ##### En esta funcion vamos a poder ver todos los posts. 
 def posts(request):
     
@@ -53,13 +54,21 @@ def add_post(request):
         form = NewPost(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.post
+            post.user = request.user
             post.save()
             posts = Post.objects.all()
             return redirect('posts')
 
     context = {'form': form, 'posts': posts, 'title': 'New Post'}
     return render(request, 'new_post.html', context)
+
+
+def userposts(request, user):
+    posts = Post.objects.filter(user)
+    posts = Post.objects.order_by('-published_at')
+
+    return render(request, 'userpost.html', {'posts': posts})
+
 
 ####### Funcion para editar los articulos. (necesario estar logueado)
 @login_required(login_url='/login/')

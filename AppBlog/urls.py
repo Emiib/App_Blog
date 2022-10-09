@@ -10,6 +10,7 @@ urlpatterns = [
     
     #    -----URL DE LOS POSTS ----- 
     path('posts/', posts, name= "posts"),
+    path('userposts/', userposts, name="userposts"),
     path('add_post/', add_post, name="add_post"),
     path('edit_post/<post_id>/', edit_post, name="edit_post"),
     path('post_detail/<post_id>/', post_detail,name= "post_detail"),

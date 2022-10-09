@@ -9,15 +9,23 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 
 import os
 
+from whitenoise import WhiteNoise
+
 from django.core.wsgi import get_wsgi_application
+
+from BlogOtaku import MyWSGIApp
+
+application = MyWSGIApp()
+
+application = WhiteNoise(application, root="/static")
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BlogOtaku.settings')
 
 application = get_wsgi_application()
 
-from whitenoise import WhiteNoise
 
-application = WhiteNoise(application)
+
 
 
 

@@ -1,0 +1,38 @@
+{% extends 'pages.html' %}
+
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_utils %}
+
+{% load static %}
+
+{% block title %}
+
+<h1 class="fw-bolder">Crea Tu Post</h1>
+
+<p class="lead mb-0">Escribe un articulo sobre tu anime favorito</p>
+
+
+<a href="{% url 'posts' %}" class="btn btn-outline-secondary">Posts</a>
+
+{% endblock title %}
+{% block blog %}
+
+<div class="p-4 my-4 shadow rounded mx-auto">
+
+        {% if posts %}
+            {% for post in posts %}
+                <a href="{% url 'post_detail' post.id%}"><img class="card-img-top" src="/media/{{ post.photo }}" alt="..." /></a>
+                <div class="card-body">
+                <div class="small text-muted">{{ post.published_at }}</div>
+                <a href="{% url 'post_detail' post.id%}"><h2 class="card-title h4">{{ post.anime_name }}</h2></a>
+                <p>{{ post.sub_name }}</p>
+                <a class="btn btn-primary" href="{% url 'post_detail' post.id %}">Read more →</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+</div>
+
+{% endblock blog %}
