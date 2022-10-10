@@ -1,0 +1,37 @@
+{% extends 'pages.html' %}
+
+{% load static %}
+
+{% block title %}
+
+<h1 class="fw-bolder">Resultados</h1>
+
+<p class="lead mb-0">Logueate y crea tu propio post</p>
+
+
+<a href="{% url 'posts' %}" class="btn btn-outline-secondary">Posts</a>
+
+{% endblock title %}
+{% block blog %}
+
+<div class="p-4 my-4 shadow rounded mx-auto">
+    {% if posts %}
+        {% for post in posts %}
+            <article class="blog-post">
+                <a href="{% url 'post_detail' post.id%}"><img class="card-img-top" src="/media/{{ post.photo }}" alt="..." /></a>
+                <h2 class="blog-post-title mb-1">{{ post.anime_name }}</h2>
+                <p class="blog-post-meta">{{ post.published_at }} <span>{{ user.username }}</span>
+                </p>
+                <p style="overflow: hidden; height: 100px; text-overflow: ellipsis;">{{ post.content|striptags|safe }}
+                <div class="mt-3">
+                    <a href="{% url 'post_detail' post.id %}"></a>
+                </div>
+            </article>
+        {% endfor %}
+    {% else %}
+        <h1 class="fw-bolder">Aun no tenemos ese articulo</h1>
+        <p class="lead mb-0">Registrate o Logueate para crearlo.</p>
+    {% endif %}
+</div>
+
+{% endblock blog %}

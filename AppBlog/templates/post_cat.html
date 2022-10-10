@@ -14,14 +14,13 @@
 {% endblock title %}
 {% block blog %}
 
-<h5>POSTS:</h5>
-<br>
+<h5>Posts:</h5>
 <div class="card card-body ml-3 mr-3">
     <table class="table table-sm">
         <tr>
             <th>Category</th>
         </tr>
-        {% for post in fpost %}
+        {% for post in posts %}
         <tr>
             <td>{{ post.category }}</td>
         </tr>

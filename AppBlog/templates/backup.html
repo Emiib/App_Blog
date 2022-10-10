@@ -1,0 +1,22 @@
+<!-- Comment form-->
+<form action="{% url 'addComment' %}" method="POST" class="mb-4">
+
+    {% csrf_token %}
+    
+    <textarea class="form-control" rows="3" placeholder="Deja tu comentario sobre este articulo"></textarea>
+     
+    {{ form|crispy }}
+</form>
+<!-- Comment with nested comments-->
+<div class="d-flex mb-4">
+    <!-- Parent comment-->
+    {% if user.is_authenticated %}
+        <div class="flex-shrink-0"><img class="rounded-circle" src="{{ avatar }}" alt="{{ request.user.username }}" /></div>
+        <div class="ms-3">
+        <div class="fw-bold">{{ Comment.person_name }}</div>
+    {% else %}
+        <div class="fw-bold">{{ user.username }}</div>
+            <textarea class="form-control" placeholder="Comment" name="Comment" required id="Comment" value="{{ Comment.content }}"></textarea>
+        </div>
+    {% endif %}
+</div>

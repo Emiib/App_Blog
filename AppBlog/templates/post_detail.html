@@ -17,44 +17,44 @@
     </head>
     <body>
         
-<!-- Responsive navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'inicio' %}">Tomodachi</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown ms-auto">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Posts</a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <a href="{% url 'posts' %}" class="dropdown-item">Posts</a>
-                        {% if user.is_authenticated %}
-                        <div class="dropdown-divider"></div>
-                        <a href="{% url 'add_post' %}" class="dropdown-item">New Post</a>
-                        {% endif %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                <li class="nav-item dropdown ms-auto">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Account</a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        {% if user.is_authenticated %}
-                        <a href="{% url 'profile' %}" aria-current="page" class="dropdown-item">{{ user.username }}</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="{% url 'messages' %}" class="dropdown-item">Chat</a>
-                        <div class="dropdown-divider"></div>
-                        {% else %}
-                        <div class="dropdown-divider"></div>
-                        <a href="{% url 'login' %}" class="dropdown-item">Login</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="{% url 'register' %}" class="dropdown-item">Register</a>
-                        {% endif %}
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'inicio' %}">Tomodachi</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown ms-auto">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Posts</a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="{% url 'posts' %}" class="dropdown-item">Posts</a>
+                                {% if user.is_authenticated %}
+                                <div class="dropdown-divider"></div>
+                                <a href="{% url 'add_post' %}" class="dropdown-item">New Post</a>
+                                {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                        <li class="nav-item dropdown ms-auto">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Account</a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'profile' %}" aria-current="page" class="dropdown-item">{{ user.username }}</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{% url 'messages' %}" class="dropdown-item">Chat</a>
+                                <div class="dropdown-divider"></div>
+                                {% else %}
+                                <div class="dropdown-divider"></div>
+                                <a href="{% url 'login' %}" class="dropdown-item">Login</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{% url 'register' %}" class="dropdown-item">Register</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <!-- Page content-->
         <div class="container mt-5">
             <div class="row">
@@ -89,55 +89,76 @@
                                     <a href="{% url 'edit_post' post.id %}" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a>
                                     <div class="col-md-3 col-sm-3">
                                     <a href="{% url 'DeletePost' post.id %}" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
-                                 {% endif %}
+                                    {% endif %}
                                     </div>
                                 </div>
                     </article>
-
 
                     <!-- Comments section-->
                     <section class="mb-5">
                         <div class="card bg-light">
                             <h3>Leave a comment</h3>
-                                <div class="card-body">
-                                    {% for comment in post.comments.all %}
-                                        <!-- Comment form-->
-                                        <form action="{% url 'addComment' %}" class="mb-4">
+                            <div class="card-body">
+                                {% for comment in post.comments.all %}
+                                    <div class="list-group-item list-group-item-action ">
+                                        <p class="mb-1 lh-sm">{{ comment.content }}</p>
+                                        <small class="text-secondary">{{ comment.name_person }} | {{ comment.created_at }}</small>
+                                    </div>
+                                {% endfor %}
 
-                                            {% csrf_token %}
-                                            
-                                            <textarea class="form-control" rows="3" placeholder="Deja tu comentario sobre este articulo"></textarea>
-                                             
-                                            {{ form|crispy }}
-                                        </form>
-                                        <!-- Comment with nested comments-->
-                                        <div class="d-flex mb-4">
-                                            <!-- Parent comment-->
-                                            {% if user.is_authenticated %}
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="{{ avatar }}" alt="{{ request.user.username }}" /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">{{ Comment.person_name }}</div>
-                                            {% else %}
-                                            <div class="fw-bold">{{ user.username }}</div>
-                                                <textarea class="form-control" placeholder="Comment" name="Comment" required id="Comment" value="{{ Comment.content }}"></textarea>
-                                            </div>
-                                            {% endif %}
+                                <div class="accordion" id="accordionForm">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Comentario...</button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionForm">
+                                        <div class="accordion-body">
+                                            <form id="form_comment">
+
+                                                {% csrf_token %}
+
+                                                <input type="hidden" name="post" id="post" value="{{ post.id }}">
+
+                                                <div class="d-flex flex-column gap-3">
+
+                                                    {{ form|crispy }}
+                                                </div>
+                                                <div class="my-4 d-flex gap-2 justify-content-end">
+
+                                                    <input type="submit" value="Comentar" class="btn btn-dark">
+
+                                                </div>
+                                            </form>
                                         </div>
-                                    {% endfor %}
+                                    </div>
                                 </div>
+                            </div>
                         </div>
                     </section>
                 </div>
             </div>
         </div>
+
         <script>
-            const CommentForm = document.getElementById("comment-form")
-        
-            CommentForm.addEventListener("submit", e => {e.preventDefault(), formData = new FormData(CommentForm)
-                fetch('/AppBlog/addComment/', {method: 'POST', body: formData})
+            const commentForm = document.getElementById("form_comment")
+    
+            commentForm.addEventListener("submit", e => {
+                e.preventDefault()
+                formData = new FormData(commentForm)
+    
+                fetch('/AppBlog/addComment/', {
+                    method: 'POST',
+                    body: formData,
+                })
                     .then(response => response.json())
-                    .then(data => {CommentForm.reset(),location.reload()})
-                    .catch((error) => {console.error('Error:', error)})
+                    .then(data => {
+                        commentForm.reset()
+                        location.reload()
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error)
+                    })
             })
         </script>
 

@@ -6,7 +6,7 @@ from ckeditor.fields import RichTextField
 ##### lista de opciones para guardar el articulo en un tipo de categoria de anime
 STATUS_CHOICES = [
                 ('Action', 'Action'),('Adventure', 'Adventure'),
-                ('Science Fiction', 'Science Fiction'), ('Sports', 'Sports'),
+                ('Fiction', 'Fiction'), ('Sports', 'Sports'),
                 ('Thriller', 'Thriller'), ('Shounen', 'Shounen'),('Fantasy', 'Fantasy')
                 ]
 
@@ -18,7 +18,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateField(null=True, blank=True, verbose_name='Fecha de publicación')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Autor')
-    photo = models.ImageField(upload_to='D:/Documents/App_Blog/media/images/', default='D:/Documents/App_Blog/media/images/no_image.jpg', null=True, verbose_name='Foto')
+    photo = models.ImageField(upload_to='images/', default='images/no_image.jpg', null=True, verbose_name='Foto')
     category = models.CharField(max_length=20, choices=STATUS_CHOICES)
 
     def __str__(self):
@@ -34,7 +34,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     name_person = models.CharField(max_length=64, verbose_name='Nombre')
-    content = models.TextField(max_length=300, verbose_name='Comentario')
+    content = models.TextField(max_length=100, verbose_name='Comentario')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
