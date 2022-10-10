@@ -37,6 +37,7 @@ class Comment(models.Model):
     content = models.TextField(max_length=100, verbose_name='Comentario')
     created_at = models.DateTimeField(auto_now_add=True)
 
+
     def __str__(self):
         return f'Comentario: {self.content} -- Autor:{self.name_person}'
 

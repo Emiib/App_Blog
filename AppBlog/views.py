@@ -1,6 +1,7 @@
 from turtle import showturtle
 from django.views import View
 from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 
 # CBV - se utiliza solamente para la vista borrar post + decorador
@@ -111,6 +112,9 @@ def addComment(request):
             return JsonResponse(model_to_dict(instance, fields=['name_person']), status=201)
         else:
             return JsonResponse(formComment.errors, safe=False, status=200)
+
+
+
 
 ##### FUNCION PARA LA VISTA DE "SOBRE NOSOTRSOS"
 def about(request):
