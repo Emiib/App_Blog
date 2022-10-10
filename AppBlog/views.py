@@ -1,7 +1,5 @@
-from turtle import showturtle
 from django.views import View
 from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 
 # CBV - se utiliza solamente para la vista borrar post + decorador
@@ -16,7 +14,7 @@ from django.forms.models import model_to_dict
 #para respuestas basadas en diccionarios
 from django.http import JsonResponse
 
-from AppProfile.views import defaultAvatar
+#from AppProfile.views import defaultAvatar
 
 ##### importamos modelos y formularios a utilizar
 from .models import Post
