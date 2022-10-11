@@ -1,4 +1,5 @@
 import django_filters
+from django_filters import ChoiceFilter, CharFilter, DateTimeFromToRangeFilter
 from .models import Post
 
 
@@ -7,11 +8,11 @@ STATUS_CHOICES = [
                 ('Fiction', 'Fiction'), ('Sports', 'Sports'),
                 ('Thriller', 'Thriller'), ('Shounen', 'Shounen'),('Fantasy', 'Fantasy')
                 ]
-
-
 class PostFilter(django_filters.FilterSet):
-    category = django_filters.ChoiceFilter(choices=STATUS_CHOICES)
+    post = CharFilter(field_name = 'post',lookup_expr='icontains')
+    category = ChoiceFilter(choices=STATUS_CHOICES)
+    created_at = DateTimeFromToRangeFilter(widget=django_filters.widgets.RangeWidget(attrs={'type': 'date'}))
 
     class Meta:
         model = Post
-        fields = ['category']
+        fields = ['category', 'post', 'created_at']

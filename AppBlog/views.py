@@ -13,10 +13,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Post
 from .forms import NewPost, CommentForm
 
-import django_filters
-
-from django.db.models import QuerySet
-from django.db.models import Q
+#para la funcio de filtrar por categorias(no funciona)
+from .filters import *
 
 
 
@@ -117,37 +115,13 @@ def buscar(request):
     return redirect('inicio')
 
 
-
+#### FUNCION PARA FILTRAR POR CATEGORIAS(NO FUNCIONA)
 def category(request):
-    category = Post.objects.all().order_by('-published_at')
-    filter = django_filters.ChoiceFilter(request.GET, queryset=category)
-    category = category.filter()
+    categories = Post.objects.all().order_by('-published_at')
+    filter = PostFilter(request.GET, queryset=categories)
+    categories = filter.qs
     context = {
-        'category': category,
+        'categories': categories,
         'filter': filter}
-    return render(request, 'post_cat.html', context)
+    return render(request, 'pages.html', context)
 
-
-def categoryy(request):
-    
-    post = request.post
-    
-    category = Post.objects.filter(Q(action=post) | Q(adventure=post) | Q(sports=post) | Q(thriller=post) | Q(fiction=post) | Q(shounen=post) | Q(fantasy=post)).order_by('-date')
-    action = category.filter(reciever=post).order_by('-date')
-    adventure = category.filter(reciever=post).order_by('-date')
-    sports = category.filter(reciever=post).order_by('-date')
-    thriller = category.filter(reciever=post).order_by('-date')
-    fiction = category.filter(reciever=post).order_by('-date')
-    shounen = category.filter(reciever=post).order_by('-date')
-    fantasy = category.filter(reciever=post).order_by('-date')
-
-    context =  {'category': 'category',
-                'adventure': adventure,
-                'sports': sports,
-                'thriller': thriller,
-                'fiction': fiction,
-                'action': action,
-                'shounen': shounen,
-                'fantasy':fantasy,
-                }
-    return render(request, 'post_cat.html', context)
