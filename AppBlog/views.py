@@ -25,6 +25,7 @@ import django_filters
 
 from django.db.models import QuerySet
 from django.db.models import Q
+from django.http import HttpResponse
 
 
 
@@ -100,7 +101,7 @@ class DeletePost(DeleteView):
     
 
 ###### Funcion para agregar comentarios al articulo.
-def addComment(request):
+def add_Comment(request):
     if request.method == 'POST':
         formComment = CommentForm(request.POST)
         if formComment.is_valid():
@@ -110,6 +111,27 @@ def addComment(request):
             return JsonResponse(model_to_dict(instance, fields=['name_person']), status=201)
         else:
             return JsonResponse(formComment.errors, safe=False, status=200)
+
+
+
+def addComment(request):
+    if request.method == 'POST':
+        url = request.POST['url']
+        post = {
+            'name_person': request.user.id,
+            'profile': request.user.id,
+            'content': request.POST['content'],
+            'post': request.POST['post']
+        }
+        formComment = CommentForm(post)
+        if formComment.is_valid():
+            formComment.save()
+            return redirect('post_detail', url=url)
+    else:
+        return HttpResponse(status=405)
+    return HttpResponse(status=500)
+
+
 
 
 
@@ -124,6 +146,8 @@ def buscar(request):
         posts = Post.objects.filter(content__contains=request.POST.get('filtro'))
         return render(request, 'busqueda.html', {'posts': posts})
     return redirect('inicio')
+
+
 
 def category(request):
     category = Post.objects.all().order_by('-published_at')
@@ -158,19 +182,3 @@ def categoryy(request):
                 'fantasy':fantasy,
                 }
     return render(request, 'post_cat.html', context)
-
-
-def autocomplete(request):
-    term = request.GET.get('term')
-    category_id = request.GET.get('category_id')
-    if term:
-        qs = Post.objects.all()
-        # Not empty and not 4 stands for all category
-        if category_id and category_id != '4':
-            qs = qs.filter(category__pk=category_id)
-        # filter by term
-        qs = qs.filter(name__istartswith=term)
-        # get name values and convert queryset to list
-        names = list(qs.values_list("name", flat=True))
-        return JsonResponse(names, safe=False)
-    return render(request, 'home.html')

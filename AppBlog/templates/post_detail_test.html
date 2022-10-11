@@ -158,3 +158,29 @@
         <script src="{% static 'js/post.js' %}"></script>
     </body>
 </html>
+
+
+
+<!-- Comments section-->
+<section class="mb-5">
+    <div class="card bg-light">
+        <div class="card-body">
+            <!-- Comment form-->
+            {% for comment in post.comments.all %}
+            
+            <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Deja tu comentario"></textarea> {% csrf_token %}
+
+                {{ formComment|crispy }}
+
+            </form>
+            <!-- Comment with nested comments-->
+            <div class="d-flex mb-4">
+                <div class="flex-shrink-0"><img class="rounded-circle" src="{{ avatar }}" alt="..." /></div>
+                <div class="ms-3">
+                    <div class="fw-bold">{{ comment.name_person }} | {{ comment.created_at }}</div>
+                    {{ comment.content }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

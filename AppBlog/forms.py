@@ -10,6 +10,7 @@ class NewPost(forms.ModelForm):
                    'photo': forms.FileInput(),
                    'published_at': forms.DateInput(attrs={'type': 'date'})}
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

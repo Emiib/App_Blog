@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from PIL import Image
 
 
 ##### lista de opciones para guardar el articulo en un tipo de categoria de anime
@@ -18,7 +19,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateField(null=True, blank=True, verbose_name='Fecha de publicación')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Autor')
-    photo = models.ImageField(upload_to='images/', default='images/no_image.jpg', null=True, verbose_name='Foto')
+    photo = models.ImageField(upload_to='images', default='images/no_image.jpg', null=True, verbose_name='Foto')
     category = models.CharField(max_length=20, choices=STATUS_CHOICES)
 
     def __str__(self):

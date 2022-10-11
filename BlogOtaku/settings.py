@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5', #para los formularios de crispy
     'axes', #paquete para autenticaciones con modalidades de seguridad y formularios avanzados
     'django_filters', #fuente: https://django-filter.readthedocs.io/en/stable/index.html
+    'django_cleanup.apps.CleanupConfig', ## Paquete para eliminar imagenes cuando se actualizan en los posts
 
 ]
 
@@ -175,7 +176,7 @@ AXES_VERBOSE = True
 
 # URL to Media
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'  #https://es.acervolima.com/disenar-formularios-de-django-con-django-crispy-forms/
 #CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5" ## https://es.acervolima.com/disenar-formularios-de-django-con-django-crispy-forms/
