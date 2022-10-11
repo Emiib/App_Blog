@@ -1,14 +1,13 @@
 from django.shortcuts import render, redirect
 
 from .models import Inbox
-from .forms import InboxForm
-from AppProfile.models import Avatar 
+from .forms import InboxForm 
 
 from django.contrib.auth.decorators import login_required
 
 from django.db.models import Q
 
-###### Esta seria la vista para el inbox
+###### Esta seria la vista del el inbox
 @login_required
 def messages(request):
     

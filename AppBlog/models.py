@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
-from PIL import Image
 
 
 ##### lista de opciones para guardar el articulo en un tipo de categoria de anime
@@ -37,6 +36,8 @@ class Comment(models.Model):
     name_person = models.CharField(max_length=64, verbose_name='Nombre')
     content = models.TextField(max_length=100, verbose_name='Comentario')
     created_at = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+
 
 
     def __str__(self):
@@ -44,6 +45,6 @@ class Comment(models.Model):
 
     class Meta:
         db_table = 'comments'
-        verbose_name = 'Comment'
-        verbose_name_plural = 'Comments'
+        verbose_name = 'comment'
+        verbose_name_plural = 'comments'
         ordering = ['-created_at'] 

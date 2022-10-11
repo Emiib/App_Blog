@@ -18,8 +18,5 @@ urlpatterns = [
 
     #    -----URL DE LAS CATEGORIAS -----
     path('category/', category, name='category'),
-    
-    #    -----URL DE LOS COMENTARIOS ----- 
-    path('addComment/', addComment, name= "addComment"),
 
     ]

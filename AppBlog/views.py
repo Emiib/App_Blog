@@ -4,28 +4,19 @@ from django.urls import reverse_lazy
 
 # CBV - se utiliza solamente para la vista borrar post + decorador
 from django.views.generic.edit import DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 #decorador para funciones - (condicionante de estar logueado)
 from django.contrib.auth.decorators import login_required
 
-####convierte los modelos en diccionarios, manteniendo los campos intactos.
-from django.forms.models import model_to_dict
-#para respuestas basadas en diccionarios
-from django.http import JsonResponse
-
-#from AppProfile.views import defaultAvatar
 
 ##### importamos modelos y formularios a utilizar
 from .models import Post
 from .forms import NewPost, CommentForm
-from AppProfile.models import Avatar
 
 import django_filters
 
 from django.db.models import QuerySet
 from django.db.models import Q
-from django.http import HttpResponse
 
 
 
@@ -62,7 +53,8 @@ def add_post(request):
     context = {'form': form, 'posts': posts, 'title': 'New Post'}
     return render(request, 'new_post.html', context)
 
-
+### funcion para ver solamente los post del usuario
+@login_required
 def userposts(request):
 
     posts = request.user.Autor.all()
@@ -85,55 +77,32 @@ def edit_post(request, post_id):
             return redirect('posts')
     return render(request, 'editpost.html',{'post':post, 'form': form})
 
-##### funcion para poder ver un post estando con una sesion activa. 
+##### Funcion para ver el detalle del post y dejar un comentario 
 def post_detail(request, post_id):
     
-    post = Post.objects.get(id = post_id) 
+    post = Post.objects.get(id = post_id)
+    comments = post.comments.filter(active=True)
+    new_comment = None
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            #Se crea el comentario pero no se guarda en la base de datos
+            new_comment = comment_form.save(commit=False)
+            #se asigna el comentario al post correspondiente
+            new_comment.post = post
+            #ahora si se guarda el form en la db
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
 
-    #context = {'Title': 'Detail', 'subtitle': post.anime_name,  'posts': post}
-    return render(request, 'post_detail.html',{'post':post})
+    return render(request, 'post_detail.html', {'post': post,'comments':comments,'new_comment': new_comment,'comment_form': comment_form})
+
 
 ##### probamos VBC
 ######### En este caso para eliminar un articulo ya publicado.
 class DeletePost(DeleteView):
     model = Post
     success_url = reverse_lazy(posts)
-    
-
-###### Funcion para agregar comentarios al articulo.
-def add_Comment(request):
-    if request.method == 'POST':
-        formComment = CommentForm(request.POST)
-        if formComment.is_valid():
-            instance = formComment.save(commit=False)
-            instance.post_id = int(request.POST.get('post'))
-            instance.save()
-            return JsonResponse(model_to_dict(instance, fields=['name_person']), status=201)
-        else:
-            return JsonResponse(formComment.errors, safe=False, status=200)
-
-
-
-def addComment(request):
-    if request.method == 'POST':
-        url = request.POST['url']
-        post = {
-            'name_person': request.user.id,
-            'profile': request.user.id,
-            'content': request.POST['content'],
-            'post': request.POST['post']
-        }
-        formComment = CommentForm(post)
-        if formComment.is_valid():
-            formComment.save()
-            return redirect('post_detail', url=url)
-    else:
-        return HttpResponse(status=405)
-    return HttpResponse(status=500)
-
-
-
-
 
 
 ##### FUNCION PARA LA VISTA DE "SOBRE NOSOTRSOS"
