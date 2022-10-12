@@ -1,6 +1,7 @@
 <h1 align="center"> Tomodachi </h1>
 <h2 align="center"> Blog Anime - Final Python CoderHouse </h2>
 Subido y Corriendo en Heroku = https://blogotaku.herokuapp.com/
+Video explicativo - = https://youtu.be/o7FAzVeFA-E
 
 ## :hammer:Creacion del proyecto
 
